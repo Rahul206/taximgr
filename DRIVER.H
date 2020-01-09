@@ -2,6 +2,7 @@
 #define DRIVER_INCLUDED
 #include<iostream.h>
 #include<stdio.h>
+#include<conio.h>
 #include "loc.h"
 #include "vehicles.h"
 #define MAX_DISTANCE 200
@@ -15,8 +16,11 @@ class Driver{
   Loc dloc;
   int noRides;
   Vehicle *vptr;
+  Car c;
+  Bike b;
 public:
-  Driver(){dloc.x=200;dloc.y=200;noRides=0;}
+	int vtype;
+  Driver(){dloc.x=200;dloc.y=200;noRides=0;vptr=&c;vtype=1;}
   Driver(double d){rating=d;}
   char* getName(){return dr_name;}
   void getveh(){vptr->printVehName();}
@@ -29,26 +33,32 @@ public:
     cout<<"Enter unique driver id"<<endl;
     cin>>dr_no;
     dloc.setLoc();
+    cout<<"Enter ph no"<<endl;
+    cin.ignore();
+    cin.getline(dr_phoneno, 15);
     cout<<"1.Car 2.Bike"<<endl;
-    char ch;
-    cin>>ch;
-    if(ch==1)
-   {Car c; vptr = &c;}
-    else {Bike b;vptr= &b;}
+    cin>>vtype;
+    if(vtype==1) vptr = &c;
+    else vptr= &b;
     vptr->getDetails();
   }
   Location get_location()
   {
     return dloc;
   }
+  Vehicle* retvptr(){return vptr;}
+  Car retC(){return c;}
+  Bike retB(){return b;}
   void printDetails()
   {
       cout<<"Name : "<<dr_name<<endl<<"Phone no: "<<dr_phoneno<<endl;
+      if(vtype==1)vptr=&c; else vptr=&b;
       vptr->printVehName();
   }
   void superDetails()
   {
       cout<<"Name : "<<dr_name<<endl<<"Phone no: "<<dr_phoneno<<endl;
+	    if(vtype==1)vptr=&c; else vptr=&b;
       vptr->printVehName();
       cout<<"Driver number: "<<dr_no<<endl<<endl;
   }
@@ -89,19 +99,20 @@ void updateDriver(Driver *d)
   Driver d2;
   while(f.read((char*)&d2, sizeof(d2))){
       if(d2.getUser ()==d->getUser()) {
-        f.seekg(int(-1*sizeof(d2)), ios::cur);
-        f.write((char*)d, sizeof(d2));
+	f.seekg(int(-1*sizeof(d2)), ios::cur);
+	f.write((char*)d, sizeof(d2));
       }
   }
   f.close();
 }
 void writeDriver(Driver d)
 {
-  ofstream f("Driver.dat",ios::binary);
+  fstream f("Driver.dat",ios::binary|ios::ate|ios::in|ios::out);
+  f.seekg(0, ios::end);
   f.write((char*)&d, sizeof(d));
   f.close();
   cout<<"Driver written into records"<<endl;
   cout<<"Press any key to continue"<<endl;
-  getch();
+getch();
 }
 #endif

@@ -11,7 +11,7 @@ protected:
    int isAc;
    char* vehType;
    int vehTypeValue; //1Car 2 Bike
-  public:
+ public:
      virtual void printDetails ()=0; // pure virtual fn
      virtual void getDetails ()=0;
      virtual void printVehName()=0;
@@ -20,20 +20,27 @@ protected:
 class Car :public Vehicle
 {
 public:
-   Car(){vehType="Car";vehTypeValue=1;}
+   Car(){strcpy("Car", vehType);vehTypeValue=1;}
    void printDetails (){
    }
    void getDetails (){
-       cout<<"Enter vehicle no, basic, modelname, manufacturer, isAc(0no 1yes)"<<endl;
-       cin.ignore();
-       gets(vno);
+       cout<<"Enter Salary, Veh no,Model name, Manufacturer of vehicle, is Ac(0-no 1-yes)"<<endl;
        cin>>basic;
-      // cin.getline(modelname,30);
-       //cin.getline(manu,30);
-       cin>>isAc;
+       isAc=1;
+       strcpy("tn000000", vno);
+       strcpy("Indica", modelname);
+       strcpy("Tata", manu);
+       cin.ignore(1000, '\n');
+      cin.getline(vno, 30);
+      cin.ignore();
+     cin.getline(modelname,30);
+      cin.ignore();
+     cin.getline(manu,30);
+      cin>>isAc;
    }
    void printVehName(){
-       cout<<vehType<<":"<<modelname<<" by "<<manu<<" Vehicle no. : "<<vno<<endl;
+     cout<<vehType<<":"<<modelname<<" by "<<manu<<" Vehicle no. : "<<vno<<endl;
+
    }
 };
 class Bike:public Vehicle
@@ -43,11 +50,18 @@ public:
    void printDetails (){
    }
    void getDetails (){
-	   cout<<"Enter vehicle no, basic, modelname, manufacturer, isAc(0no 1yes)"<<endl;
-       cin.getline(vno, 30);
+       cout<<"Enter Salary, Veh no,Model name, Manufacturer of vehicle"<<endl;
        cin>>basic;
-       cin.getline(modelname,30);
-       cin.getline(manu,30);
+       isAc=0;
+       strcpy("tn000000", vno);
+       strcpy("TVS 50", modelname);
+       strcpy("TVS", manu);
+       cin.ignore(1000, '\n');
+      cin.getline(vno, 30);
+      cin.ignore();
+     cin.getline(modelname,30);
+      cin.ignore();
+     cin.getline(manu,30);
    }
    void printVehName(){
        cout<<vehType<<":"<<modelname<<" by "<<manu<<" Vehicle no. : "<<vno<<endl;
